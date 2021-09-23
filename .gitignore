@@ -1,3 +1,9 @@
+# .idea directory
+*.idea
+
+# .gitignore file
+.gitignore
+
 # Compiled class file
 *.class
 
