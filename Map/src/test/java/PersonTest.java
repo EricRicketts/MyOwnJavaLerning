@@ -69,4 +69,13 @@ class PersonTest {
 
         assertArrayEquals(expected, results);
     }
+
+    @Test
+    void getValueOrDefault() {
+        Person defaultPerson = hMap.getOrDefault("foo", new Person("Foo", "Bar", 10));
+        String[] expected = {"Foo", "Bar", "10"};
+        String[] results = new String[]{defaultPerson.getFirstName(), defaultPerson.getLastName(),
+            Integer.toString(defaultPerson.getAge())};
+        assertArrayEquals(expected, results);
+    }
 }
