@@ -91,4 +91,18 @@ class PersonTest {
         Object[] results = {person.getFirstName(), person.getLastName(), person.getAge()};
         assertArrayEquals(expected, results);
     }
+
+    @Test
+    void usingAKeyIterator() {
+        Set<String> expected = new HashSet<>();
+        String[] values = {"Fred", "Barney", "Wilma", "Betty"};
+        for (String firstName:values) { expected.add(firstName); }
+        Set<String> results = new HashSet<>();
+        Iterator<String> iterator = hMap.keySet().iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            results.add(hMap.get(key).getFirstName());
+        }
+        assertEquals(expected, results);
+    }
 }
