@@ -78,4 +78,17 @@ class PersonTest {
             Integer.toString(defaultPerson.getAge())};
         assertArrayEquals(expected, results);
     }
+
+    @Test
+    void checkIfMapContainsAKey() {
+        assertTrue(hMap.containsKey("first"));
+    }
+
+    @Test
+    void checkIfMapContainsAValue() {
+        Object[] expected = {"Fred", "Flintstone", 35};
+        Person person = hMap.get("first");
+        Object[] results = {person.getFirstName(), person.getLastName(), person.getAge()};
+        assertArrayEquals(expected, results);
+    }
 }
