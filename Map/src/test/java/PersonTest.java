@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,6 +103,45 @@ class PersonTest {
         while (iterator.hasNext()) {
             String key = iterator.next();
             results.add(hMap.get(key).getFirstName());
+        }
+        assertEquals(expected, results);
+    }
+
+    @Test
+    void usingForEachLoopKeys() {
+        Set<String> expected = new HashSet<>();
+        String[] values = {"Bugs", "Daffy", "Elmer", "Foghorn"};
+        for (String firstName:values) { expected.add(firstName); }
+        Set<String> results = new HashSet<>();
+        for (String key:hMapNext.keySet()) {
+            results.add(hMapNext.get(key).getFirstName());
+        }
+        assertEquals(expected, results);
+    }
+
+    @Test
+    void usingAKeyStream() {
+        Set<String> expected = new HashSet<>();
+        Set<String> results = new HashSet<>();
+        String[] values = {"Bugs", "Daffy", "Elmer", "Foghorn"};
+        for (String firstName:values) { expected.add(firstName); }
+        Stream<String> keyStream = hMapNext.keySet().stream();
+        keyStream.forEach((key) -> {
+            results.add(hMapNext.get(key).getFirstName());
+        });
+        assertEquals(expected, results);
+    }
+
+    @Test
+    void usingAValuesIterator() {
+        Set<String> expected = new HashSet<>();
+        Set<String> results = new HashSet<>();
+        String[] values = {"Bugs", "Daffy", "Elmer", "Foghorn"};
+        for (String firstName:values) { expected.add(firstName); }
+        Iterator<Person> iterator = hMapNext.values().iterator();
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
+            results.add(person.getFirstName());
         }
         assertEquals(expected, results);
     }
