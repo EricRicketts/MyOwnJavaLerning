@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -196,4 +197,51 @@ class PersonTest {
         assertEquals(expected, results);
     }
 
+    @Test
+    void removeAnEntryFromAMap() {
+        int[] expected = {4, 3};
+        int[] results = new int[2];
+        results[0] = hMap.size();
+        hMap.remove("first");
+        results[1] = hMap.size();
+        assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void removeAllEntriesFromAMap() {
+        int[] expected = {4, 0};
+        int[] results = new int[2];
+        results[0] = hMap.size();
+        hMap.clear();
+        results[1] = hMap.size();
+        assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void cannotReplaceNonExistentEntry() {
+        assertNull(hMap.replace("10", new Person("Foo", "Bar", 10)));
+    }
+
+    @Test
+    void canOnlyReplaceExistingEntry() {
+        Person person = new Person("Yosemite", "Sam", 40);
+        Object[] expected = new Object[]{"Bugs", "Bunny", 33, "Yosemite", "Sam", 40};
+        Object[] results = new Object[6];
+        Person currentPerson = hMapNext.get("fifth");
+        results[0] = currentPerson.getFirstName();
+        results[1] = currentPerson.getLastName();
+        results[2] = currentPerson.getAge();
+        Person value = hMapNext.replace("fifth", person);
+        currentPerson = hMapNext.get("fifth");
+        results[3] = currentPerson.getFirstName();
+        results[4] = currentPerson.getLastName();
+        results[5] = currentPerson.getAge();
+        assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void testIfMapIsEmpty() {
+        hMap.clear();
+        assertTrue(hMap.isEmpty());
+    }
 }
