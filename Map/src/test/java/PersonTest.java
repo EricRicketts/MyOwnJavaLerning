@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.platform.commons.util.CollectionUtils.*;
 
 class PersonTest {
     Map<String, Person> hMap;
@@ -168,4 +169,31 @@ class PersonTest {
         });
         assertEquals(expected, results);
     }
+
+    @Test
+    void entriesWithAnIterator() {
+        String[][] values = {{"first", "Fred"}, {"second", "Wilma"}, {"third", "Barney"}, {"fourth", "Betty"}};
+        SortedMap<String, String> expected = new TreeMap<>();
+        SortedMap<String, String> results = new TreeMap<>();
+        for (String[] value:values) { expected.put(value[0], value[1]); }
+        Iterator<Map.Entry<String, Person>> iterator = hMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Person> entry = iterator.next();
+            results.put(entry.getKey(), entry.getValue().getFirstName());
+        }
+        assertEquals(expected, results);
+    }
+
+    @Test
+    void entriesWithAForEachLoop () {
+        String[][] values = {{"first", "Fred"}, {"second", "Wilma"}, {"third", "Barney"}, {"fourth", "Betty"}};
+        SortedMap<String, String> expected = new TreeMap<>();
+        SortedMap<String, String> results = new TreeMap<>();
+        for (String[] value:values) { expected.put(value[0], value[1]); }
+        for (Map.Entry<String, Person> entry:hMap.entrySet()) {
+            results.put(entry.getKey(), entry.getValue().getFirstName());
+        }
+        assertEquals(expected, results);
+    }
+
 }
