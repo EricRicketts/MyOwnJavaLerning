@@ -145,4 +145,27 @@ class PersonTest {
         }
         assertEquals(expected, results);
     }
+
+    @Test
+    void valuesForEachLoop() {
+        Set<String> expected = new HashSet<>();
+        Set<String> results = new HashSet<>();
+        String[] values = {"Bugs", "Daffy", "Elmer", "Foghorn"};
+        for (String firstName:values) { expected.add(firstName); }
+        for (Person person:hMapNext.values()) { results.add(person.getFirstName()); }
+        assertEquals(expected, results);
+    }
+
+    @Test
+    void valuesWithAStream() {
+        Set<String> expected = new HashSet<>();
+        Set<String> results = new HashSet<>();
+        String[] values = {"Bugs", "Daffy", "Elmer", "Foghorn"};
+        for (String firstName:values) { expected.add(firstName); }
+        Stream<Person> stream = hMapNext.values().stream();
+        stream.forEach((person) -> {
+            results.add(person.getFirstName());
+        });
+        assertEquals(expected, results);
+    }
 }
