@@ -30,4 +30,14 @@ class PersonTest {
         Person person = myList.get(0);
         assertEquals(35, person.getAge());
     }
+
+    @Test
+    void insertElementIntoList() {
+        int[] expected = {4, 5};
+        int[] results = new int[2];
+        results[0] = myListNext.size();
+        myListNext.add(new Person("Yosemite", "Sam", 40));
+        results[1] = myListNext.size();
+        assertArrayEquals(expected, results);
+    }
 }
