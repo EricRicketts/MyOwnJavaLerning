@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,6 +11,7 @@ class PersonTest {
 
     List<Person> myList;
     List<AnotherPerson> myListNext;
+    List<Person> listToSort;
     @BeforeEach
     void setUp() {
         myList = new ArrayList<>();
@@ -23,6 +25,13 @@ class PersonTest {
         myListNext.add(new AnotherPerson("Daffy", "Duck", 32));
         myListNext.add(new AnotherPerson("Elmer", "Fudd", 31));
         myListNext.add(new AnotherPerson("Foghorn", "Leghorn", 30));
+
+        listToSort = new ArrayList<>();
+        listToSort.add(new Person("John", "Waybash", 25));
+        listToSort.add(new Person("John", "Doe", 33));
+        listToSort.add(new Person("Fizz", "Buzz", 30));
+        listToSort.add(new Person("John", "Wick", 35));
+        listToSort.add(new Person("John", "Doe", 27));
     }
 
     @Test
@@ -124,5 +133,28 @@ class PersonTest {
         myList.clear();
         results[1] = myList.size();
         assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void createASublist() {
+        List<AnotherPerson> subList = myListNext.subList(1, 3);
+        Object[] expected = new Object[]{"Duck", "Fudd", 2};
+        Object[] results = new Object[]{subList.get(0).getLastName(), subList.get(1).getLastName(), subList.size()};
+        assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void sortAListWithComparable() {
+        List<Person> expected = new ArrayList<>();
+        expected.add(new Person("Fizz", "Buzz", 30));
+        expected.add(new Person("John", "Doe", 27));
+        expected.add(new Person("John", "Doe", 33));
+        expected.add(new Person("John", "Waybash", 25));
+        expected.add(new Person("John", "Wick", 35));
+        Collections.sort(listToSort);
+        for (int index = 0; index < listToSort.size(); index++) {
+            boolean equalPeople = expected.get(index).equals(listToSort.get(index));
+            assertTrue(equalPeople);
+        }
     }
 }

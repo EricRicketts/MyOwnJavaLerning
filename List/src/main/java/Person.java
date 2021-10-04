@@ -1,7 +1,7 @@
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Person {
+public class Person implements Comparable<Person> {
     private String firstName;
     private String lastName;
     private int age;
@@ -56,5 +56,16 @@ public class Person {
         builder.append(lastName);
         builder.append(age);
         return builder.toHashCode();
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        if (lastName != other.getLastName()) {
+            return lastName.compareTo(other.getLastName());
+        } else if (firstName != other.getFirstName()) {
+            return firstName.compareTo(other.getFirstName());
+        } else {
+            return Integer.compare(age, other.getAge());
+        }
     }
 }
