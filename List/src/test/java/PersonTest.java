@@ -3,7 +3,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -156,5 +158,48 @@ class PersonTest {
             boolean equalPeople = expected.get(index).equals(listToSort.get(index));
             assertTrue(equalPeople);
         }
+    }
+
+    @Test
+    void iterateUsingForLoop() {
+        String[] expected = {"Bugs", "Daffy", "Elmer", "Foghorn"};
+        String[] results = new String[4];
+        for (int index = 0; index < myListNext.size(); index++) {
+            results[index] = myListNext.get(index).getFirstName();
+        }
+        assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void iterateUsingForEachLoop() {
+        String[] expected = {"Fred", "Wilma", "Barney", "Betty"};
+        List<String> results = new ArrayList<>();
+        for (Person person:myList) {
+            results.add(person.getFirstName());
+        }
+        assertArrayEquals(expected, results.toArray());
+    }
+
+    @Test
+    void iterateUsingIterator() {
+        String[] expected = {"Bugs", "Daffy", "Elmer", "Foghorn"};
+        List<String> results = new ArrayList<>();
+        Iterator<AnotherPerson> iterator = myListNext.iterator();
+        while (iterator.hasNext()) {
+            AnotherPerson person = iterator.next();
+            results.add(person.getFirstName());
+        }
+        assertArrayEquals(expected, results.toArray());
+    }
+
+    @Test
+    void iterateUsingAStream() {
+        String[] expected = {"Fred", "Wilma", "Barney", "Betty"};
+        List<String> results = new ArrayList<>();
+        Stream<Person> stream = myList.stream();
+        stream.forEach((person) -> {
+            results.add(person.getFirstName());
+        });
+        assertArrayEquals(expected, results.toArray());
     }
 }
