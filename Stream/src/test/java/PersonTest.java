@@ -107,4 +107,12 @@ class PersonTest {
         assertEquals(expected, results);
     }
 
+    @Test
+    void useStreamReduceToAddAllAges() {
+        int expected = 0;
+        for (Person person:myList) { expected += person.getAge(); }
+        int results = streamFromList.map((person) -> person.getAge()).reduce(0, Integer::sum);
+        assertEquals(expected, results);
+    }
+
 }
