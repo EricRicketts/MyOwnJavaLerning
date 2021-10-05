@@ -51,4 +51,11 @@ class PersonTest {
     void createStreamFromMap() {
         assertTrue(streamFromMap instanceof Stream);
     }
+
+    @Test
+    void getTheSizeOfAStream() {
+        long[] expected = {8, 8};
+        long[] results = new long[]{streamFromList.count(), streamFromMap.count()};
+        assertArrayEquals(expected, results);
+    }
 }
