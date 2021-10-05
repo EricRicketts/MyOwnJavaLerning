@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -90,4 +91,20 @@ class PersonTest {
         for (Integer result:results) { setOfResults.add(result); }
         assertEquals(setOfExpected, setOfResults);
     }
+
+    @Test
+    void useStreamFilterAndCollectForANewList() {
+        Integer[] values = {33, 34, 40};
+        Set<Integer> expected = new HashSet<>(Arrays.asList(values));
+        List<Person> olderCharacters = streamFromList.filter((person) -> {
+            return person.getAge() >= 33;
+        }).collect(Collectors.toList());
+        Set<Integer> results = new HashSet<>();
+        olderCharacters.forEach((person) -> {
+            Integer age = Integer.valueOf(person.getAge());
+            results.add(age);
+        });
+        assertEquals(expected, results);
+    }
+
 }
