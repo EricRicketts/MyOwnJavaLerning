@@ -1,10 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,5 +54,40 @@ class PersonTest {
         long[] expected = {8, 8};
         long[] results = new long[]{streamFromList.count(), streamFromMap.count()};
         assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void forEachOnAStream() {
+        long[] expected = {32, 42};
+        long[] results = new long[2];
+        results[0] = hMap.get("2").getAge();
+        streamFromMap.forEach((entry) -> {
+            String key = entry.getKey();
+            Person person = entry.getValue();
+            if (key.equals("2")) {
+                person.setAge(42);
+            }
+        });
+        results[1] = hMap.get("2").getAge();
+        assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void useStreamMapToTransformAMap() {
+        Integer[] expected = {40, 41, 42, 43, 44, 25, 50, 35};
+        List<Integer> results = new ArrayList<>();
+        Stream<Map.Entry<String, Person>> newStreamFromMap = streamFromMap.map((entry) -> {
+            Person person = entry.getValue();
+            person.setAge(person.getAge() + 10);
+            return entry;
+        });
+        newStreamFromMap.forEach((entry) -> {
+            int age = entry.getValue().getAge();
+            results.add(age);
+        });
+        Set<Integer> setOfExpected = new HashSet<>(Arrays.asList(expected));
+        Set<Integer> setOfResults = new HashSet<>();
+        for (Integer result:results) { setOfResults.add(result); }
+        assertEquals(setOfExpected, setOfResults);
     }
 }
