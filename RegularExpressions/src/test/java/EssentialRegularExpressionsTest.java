@@ -106,4 +106,23 @@ public class EssentialRegularExpressionsTest {
         }
         assertArrayEquals(expected, results.toArray());
     }
+
+    @Test
+    void usingSplit() {
+        String[] expected = {"A", "Text", "With", "Many", "Separators"};
+        regex = "\\s*sep\\s*";
+        text1 = "A sep Text sep With sep Many sep Separators";
+        pattern = Pattern.compile(regex);
+        String[] results = pattern.split(text1);
+        assertArrayEquals(expected, results);
+    }
+
+    @Test
+    void usingPatternMethodOnAPattern() {
+        String expected = "[a-z]\\sb{2,}";
+        regex = "[a-z]\\sb{2,}";
+        pattern = Pattern.compile(regex);
+        String results = pattern.pattern();
+        assertEquals(expected, results);
+    }
 }
