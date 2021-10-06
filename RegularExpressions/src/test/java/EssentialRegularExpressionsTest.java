@@ -56,4 +56,22 @@ public class EssentialRegularExpressionsTest {
         }
         assertArrayEquals(expected, results);
     }
+
+    @Test
+    void nonWordBoundary() {
+        int index = 0;
+        int[] expected = {1, 1, 2, 2, 3, 3, 6, 6, 7, 7};
+        int[] results = new int[expected.length];
+        regex = "\\B";
+        text1 = "Mary had";
+        pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text1);
+        while (matcher.find()) {
+            results[index] = matcher.start();
+            index += 1;
+            results[index] = matcher.end();
+            index += 1;
+        }
+        assertArrayEquals(expected, results);
+    }
 }
