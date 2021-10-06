@@ -91,4 +91,19 @@ public class EssentialRegularExpressionsTest {
         results[1] = result;
         assertArrayEquals(expected, results);
     }
+
+    @Test
+    void patternMatchingWithSecondArgument() {
+        Integer[] expected = {2, 4, 8, 10};
+        List<Integer> results = new ArrayList<>();
+        text1 = "A [T or [t";
+        regex = "\\[t";
+        pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        matcher = pattern.matcher(text1);
+        while (matcher.find()) {
+            results.add(matcher.start());
+            results.add(matcher.end());
+        }
+        assertArrayEquals(expected, results.toArray());
+    }
 }
