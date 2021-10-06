@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 public class EssentialRegularExpressionsTest {
 
     String regex;
-    String text1, text2, text3;
+    String text1;
     Pattern pattern;
     Matcher matcher;
     @Test
@@ -125,4 +125,46 @@ public class EssentialRegularExpressionsTest {
         String results = pattern.pattern();
         assertEquals(expected, results);
     }
+
+    @Test
+    void matchesMethodReturnsBoolean() {
+        // must match the entire text, I do not find this of much use
+        regex = ".*Hell[oO].*";
+        text1 = "Hello and HellO";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(text1);
+        assertTrue(matcher.matches());
+    }
+
+    @Test
+    void matchingWithSingleGroup() {
+       String[] expected = {"John", "John", "John"};
+       List<String> results = new ArrayList<>();
+       regex = "(John)";
+       text1 = "John writes about this, and John Doe writes about that, " +
+               "and John Wayne writes about everything.";
+       pattern = Pattern.compile(regex);
+       matcher = pattern.matcher(text1);
+       while (matcher.find()) {
+           results.add(matcher.group(1));
+       }
+       assertArrayEquals(expected, results.toArray());
+    }
+
+    @Test
+    void matchingWithMoreThanOneGroup() {
+        String[] expected = {"John", "writes", "John", "Doe", "John", "Wayne"};
+        List<String> results = new ArrayList<>();
+        regex = "(John)\\s+(\\w+)";
+        text1 = "John writes about this, and John Doe writes about that, " +
+                "and John Wayne writes about everything.";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(text1);
+        while (matcher.find()) {
+            results.add(matcher.group(1));
+            results.add(matcher.group(2));
+        }
+        assertArrayEquals(expected, results.toArray());
+    }
+
 }
