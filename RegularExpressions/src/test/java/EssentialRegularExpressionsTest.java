@@ -74,4 +74,21 @@ public class EssentialRegularExpressionsTest {
         }
         assertArrayEquals(expected, results);
     }
+
+    @Test
+    void oneTimePatternMatching() {
+        // when using Pattern.matches the regex must match the entire line, this is pathetic
+        // Pattern.matches should exhibit the same behavior as when you compile a pattern and match
+        // it against a text
+        boolean[] expected = {false, true};
+        boolean[] results = new boolean[2];
+        text1 = "foobar fizzbuzz";
+        regex = "ob";
+        boolean result = Pattern.matches(regex, text1);
+        results[0] = result;
+        regex = ".*ob.*";
+        result = Pattern.matches(regex, text1);
+        results[1] = result;
+        assertArrayEquals(expected, results);
+    }
 }
