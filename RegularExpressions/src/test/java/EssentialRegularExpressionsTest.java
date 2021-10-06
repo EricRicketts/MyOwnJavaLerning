@@ -167,4 +167,36 @@ public class EssentialRegularExpressionsTest {
         assertArrayEquals(expected, results.toArray());
     }
 
+    @Test
+    void matchingWithEmbeddedGroups() {
+        String[] expected = {
+                "John writes", "John", "writes", "John Doe", "John", "Doe",
+                "John Wayne", "John", "Wayne"
+        };
+        List<String> results = new ArrayList<>();
+        regex = "((John)\\s+(\\w+))";
+        text1 = "John writes about this, and John Doe writes about that, " +
+                "and John Wayne writes about everything.";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(text1);
+        while (matcher.find()) {
+            results.add(matcher.group(1));
+            results.add(matcher.group(2));
+            results.add(matcher.group(3));
+        }
+        assertArrayEquals(expected, results.toArray());
+    }
+
+    @Test
+    void useRegexToReplace() {
+        String expected = "John Blocks about this, and John Blocks writes about that, " +
+                "and John Blocks writes about everything.";
+        regex = "((John)\\s+(\\w+))";
+        text1 = "John writes about this, and John Doe writes about that, " +
+                "and John Wayne writes about everything.";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(text1);
+        String results = matcher.replaceAll("John Blocks");
+        assertEquals(expected, results);
+    }
 }
